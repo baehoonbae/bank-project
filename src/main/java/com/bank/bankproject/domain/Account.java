@@ -1,5 +1,27 @@
 package com.bank.bankproject.domain;
 
-public class Account {
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "accounts")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "account_number", unique = true)
+    private String accountNumber;
+
+    @Column(name = "balance")
+    private Double balance;
+
+    @ManyToOne
+    @JoinColumn(name = user_id)
+    private User user;
 }
