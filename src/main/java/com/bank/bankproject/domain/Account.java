@@ -18,10 +18,13 @@ public class Account {
     @Column(name = "account_number", unique = true)
     private String accountNumber;
 
+    @Column(name = "account_password")
+    private String accountPassword;
+
     @Column(name = "balance")
     private Double balance;
 
     @ManyToOne
-    @JoinColumn(name = user_id)
+    @JoinColumn(name = "user_id")
     private User user;
 }
