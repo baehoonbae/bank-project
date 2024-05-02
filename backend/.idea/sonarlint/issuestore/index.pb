@@ -1,6 +1,4 @@
 
-9
-	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
@@ -26,5 +24,3 @@ n
 >src/main/java/com/bank/bankproject/service/AccountService.java,c\b\cbd8477f782dd0ee0f949cb0b6265d42c32d6dbd
 n
 >src/main/java/com/bank/bankproject/BankProjectApplication.java,a\8\a8dca6b588a8aeb42cc814eb43299a2ff68046fd
-m
-=src/main/java/com/bank/bankproject/config/SecurityConfig.java,b\9\b98be3334071d8ead956fcbf30e5866ac75b11ec
