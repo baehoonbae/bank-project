@@ -1,4 +1,4 @@
-.gradle
+../.gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
@@ -17,7 +17,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+backend/.idea
 *.iws
 *.iml
 *.ipr
@@ -34,3 +34,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Ignore application properties with sensitive info ###
+src/main/resources/application.properties
+src/main/resources/application.yml
