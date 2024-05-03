@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fce56e6b-c04b-492b-94d3-701641dd7c30" name="Changes" comment="feat: 사용자 서비스 레이어 추가" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;baehoonbae&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1714550936" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="origin" />
+                    <option name="lastUsedInstant" value="1714550935" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/baehoonbae/bank-project.git&quot;,
+    &quot;accountId&quot;: &quot;cc8dfc6e-2c12-4354-9d27-adaf214014f0&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2frA896q7u8Og9SdyisgMWHg343" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Gradle.bank-project [:BankProjectApplication.main()].executor": "Run",
+    "Gradle.bank-project.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/BAESEONGHUN/Desktop/study/bank-project/backend",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\BAESEONGHUN\Desktop\study\bank-project" />
+      <recent name="C:\Users\BAESEONGHUN\Desktop\study\bank-project\backend" />
+      <recent name="C:\Users\BAESEONGHUN\Desktop\study\bank-project\backend\src" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fce56e6b-c04b-492b-94d3-701641dd7c30" name="Changes" comment="" />
+      <created>1714548661298</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714548661298</updated>
+    </task>
+    <task id="LOCAL-00001" summary="docs: Update .gitignore">
+      <option name="closed" value="true" />
+      <created>1714549241499</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1714549241499</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: User, Account 도메인 클래스 추가">
+      <option name="closed" value="true" />
+      <created>1714551581614</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714551581614</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: UserRepository, AccountRepository 추가">
+      <option name="closed" value="true" />
+      <created>1714551632034</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1714551632034</updated>
+    </task>
+    <task id="LOCAL-00004" summary="refactor: 어노테이션 추가">
+      <option name="closed" value="true" />
+      <created>1714633625733</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1714633625733</updated>
+    </task>
+    <task id="LOCAL-00005" summary="refactor: 어노테이션 추가 및 컬럼 수정">
+      <option name="closed" value="true" />
+      <created>1714633694207</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1714633694207</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: 홈페이지 추가">
+      <option name="closed" value="true" />
+      <created>1714638045134</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638045134</updated>
+    </task>
+    <task id="LOCAL-00007" summary="build: 데이터베이스 의존성 추가">
+      <option name="closed" value="true" />
+      <created>1714638104576</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638104576</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix: 스프링 시큐리티 초기 화면 제거">
+      <option name="closed" value="true" />
+      <created>1714638130348</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638130348</updated>
+    </task>
+    <task id="LOCAL-00009" summary="chore: 어플리케이션 설정 제외">
+      <option name="closed" value="true" />
+      <created>1714638202856</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638202856</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: 계좌 비밀번호 추가">
+      <option name="closed" value="true" />
+      <created>1714638232334</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638232334</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1714638304449</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638304449</updated>
+    </task>
+    <task id="LOCAL-00012" summary="docs: README.md 업데이트">
+      <option name="closed" value="true" />
+      <created>1714638342895</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638342895</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: 계좌 컨트롤러 추가">
+      <option name="closed" value="true" />
+      <created>1714638362746</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638362746</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: 계좌 서비스 레이어 추가">
+      <option name="closed" value="true" />
+      <created>1714638371079</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638371079</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat: 사용자 컨트롤러 추가">
+      <option name="closed" value="true" />
+      <created>1714638380564</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638380564</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: 사용자 서비스 레이어 추가">
+      <option name="closed" value="true" />
+      <created>1714638392532</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1714638392532</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="docs: Update .gitignore" />
+    <MESSAGE value="feat: User, Account 도메인 클래스 추가" />
+    <MESSAGE value="feat: UserRepository, AccountRepository 추가" />
+    <MESSAGE value="refactor: 어노테이션 추가" />
+    <MESSAGE value="refactor: 어노테이션 추가 및 컬럼 수정" />
+    <MESSAGE value="feat: 홈페이지 추가" />
+    <MESSAGE value="build: 데이터베이스 의존성 추가" />
+    <MESSAGE value="fix: 스프링 시큐리티 초기 화면 제거" />
+    <MESSAGE value="chore: 어플리케이션 설정 제외" />
+    <MESSAGE value="feat: 계좌 비밀번호 추가" />
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="docs: README.md 업데이트" />
+    <MESSAGE value="feat: 계좌 컨트롤러 추가" />
+    <MESSAGE value="feat: 계좌 서비스 레이어 추가" />
+    <MESSAGE value="feat: 사용자 컨트롤러 추가" />
+    <MESSAGE value="feat: 사용자 서비스 레이어 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 사용자 서비스 레이어 추가" />
+  </component>
+</project>
