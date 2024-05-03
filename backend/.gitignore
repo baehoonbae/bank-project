@@ -38,3 +38,5 @@ out/
 ### Ignore application properties with sensitive info ###
 src/main/resources/application.properties
 src/main/resources/application.yml
+
+.lock
