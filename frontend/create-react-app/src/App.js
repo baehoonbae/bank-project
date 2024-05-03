@@ -2,22 +2,23 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const handleLogin = () => {
+    // 로그인 로직
+  };
+
+  const handleAccountCheck = () => {
+    // 계좌조회 로직
+  };
+
+  const handleAccountTransfer = () => {
+    // 계좌이체 로직
+  };
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={handleLogin}>로그인</button>
+      <button onClick={handleAccountCheck}>계좌조회</button>
+      <button onClick={handleAccountTransfer}>계좌이체</button>
     </div>
   );
 }
