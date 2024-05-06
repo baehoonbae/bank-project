@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './assets/logo.svg';
+import './components/app/App.css';
 
 function App() {
   const handleLogin = () => {
