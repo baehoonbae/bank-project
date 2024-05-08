@@ -37,7 +37,7 @@
   }
 }
 
-.buttonStyle {
+.button {
   width: 250px;
   height: 350px;
   font-size: 27.5px;
@@ -51,4 +51,12 @@
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 25px;
+}
+
+.button {
+  cursor: pointer; 
+}
+
+.button:hover .title::after {
+  content: ' >'; 
 }
