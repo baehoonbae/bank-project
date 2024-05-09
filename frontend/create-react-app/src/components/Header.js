@@ -4,7 +4,9 @@ function Header() {
     return (
         <>
             <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '1300px', height: '75px' }}>
-                <nav style={{ color: 'teal', fontWeight: 'bold', fontSize: '25.5px' }}>HBbank</nav>
+                <nav style={{ color: 'teal', fontWeight: 'bold', fontSize: '25.5px' }}>
+                    <Link className="link" to={"/"} style={{ textDecoration: 'none' }}>HBbank</Link>
+                </nav>
                 <nav>
                     <Link className="link" to={"/login"}>로그인</Link>
                     <span style={{ borderLeft: '1px solid #e0e0e0', margin: '0 10px' }}></span>
