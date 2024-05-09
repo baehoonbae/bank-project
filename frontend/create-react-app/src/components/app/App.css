@@ -32,6 +32,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -54,18 +55,56 @@
 }
 
 .button {
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .button:hover .title::after {
-  content: ' >'; 
+  content: ' >';
 }
 
 .link {
-  color: inherit; 
-  text-decoration: none; 
+  color: inherit;
+  text-decoration: none;
 }
 
 .link:hover {
-  text-decoration: underline; 
+  text-decoration: underline;
+}
+
+.loginButton {
+  border: none;
+  border-radius: 3px;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 128, 128, 0.9);
+  flex: 3;
+  min-height: 85px;
+  margin: 10px;
+}
+
+.loginButton:hover {
+  background-color: rgba(0, 128, 128, 0.7);
+  cursor: pointer;
+}
+
+.loginForm {
+  width: 500px;
+  height: 500px;
+  margin-top: 50px;
+  border: 1.3px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.signUpForm {
+  width: 500px;
+  height: 700px;
+  margin-top: 50px;
+  border: 1.3px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
