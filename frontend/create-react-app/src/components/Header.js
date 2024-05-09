@@ -7,6 +7,8 @@ function Header() {
                 <nav style={{ color: 'teal', fontWeight: 'bold', fontSize: '25.5px' }}>HBbank</nav>
                 <nav>
                     <Link className="link" to={"/login"}>로그인</Link>
+                    <span style={{ borderLeft: '1px solid #e0e0e0', margin: '0 10px' }}></span>
+                    <Link className="link" to={"/signup"}>회원가입</Link>
                 </nav>
             </header>
         </>
