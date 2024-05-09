@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../components/Header.js';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import Footer from '../components/Footer.js';
 
 function SignUp() {
     const [id, setId] = useState('');
@@ -50,6 +50,7 @@ function SignUp() {
                     </form>
                 </div>
             </div >
+            <Footer />
         </>
     );
 }
