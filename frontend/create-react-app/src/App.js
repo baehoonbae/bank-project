@@ -5,6 +5,7 @@ import Home from './views/Home';
 import MyPage from './views/MyPage';
 import Send from './views/Send';
 import CreateAccount from './views/CreateAccount';
+import SignUp from './views/SignUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/send" element={<Send />} />
           <Route path="/create" element={<CreateAccount />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Router>
     </div>
