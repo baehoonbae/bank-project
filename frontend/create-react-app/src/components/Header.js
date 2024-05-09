@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 function Header() {
     return (
         <>
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '1300px', height: '75px' }}>
-                <nav style={{ color: 'teal', fontWeight: 'bold', fontSize: '25.5px' }}>
+            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '1000px', height: '75px' }}>
+                <nav style={{ color: 'teal', fontWeight: 'bold', fontSize: '22.5px' }}>
                     <Link className="link" to={"/"} style={{ textDecoration: 'none' }}>HBbank</Link>
                 </nav>
                 <nav>
