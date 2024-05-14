@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
+import { Styles } from '../styles/Styles.js';
 
 function SignUp() {
     const [id, setId] = useState('');
@@ -11,20 +12,7 @@ function SignUp() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
 
-    const inputStyle = {
-        width: '300px',
-        height: '40px',
-        marginTop: '10px'
-    };
-    const buttonStyle = {
-        ...inputStyle,
-        backgroundColor: 'teal',
-        color: 'white',
-        border: 'none',
-        padding: '10px 20px',
-        cursor: 'pointer',
-    };
-
+    const { inputStyle, buttonStyle } = Styles();
 
     const handleSubmit = (event) => {
         event.preventDefault();
