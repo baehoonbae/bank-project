@@ -108,9 +108,3 @@
   align-items: center;
   flex-direction: column;
 }
-
-.selectedAccount {
-  background-color: rgb(255, 246, 248);
-  border-bottom: 1px solid #9e9fa0;
-  border-top: 1px solid #9e9fa0;
-}
