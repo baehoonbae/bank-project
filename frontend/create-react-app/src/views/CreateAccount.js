@@ -5,17 +5,17 @@ import Styles from '../styles/Styles.js';
 
 function CreateAccount() {
 
-  const [accounts, setAccounts] = useState([
+  const [menus, setMenus] = useState([
     { name: "HB 올인원통장", description: "HB 올인원통장 설명" },
     { name: "HB 플러스통장", description: "HB 플러스통장 설명" },
     { name: "HB 일상생활비우대통장", description: "HB 일상생활비우대통장 설명" },
     { name: "마이저금통", description: "마이저금통 설명" },
   ]);
-  const [selectedAccount, setSelectedAccount] = useState(null);
-  const { inputStyle, buttonStyle } = Styles();
+  const [selectedMenu, setSelectedMenu] = useState(null);
+  const { inputStyle, buttonStyle, menuStyle, selectedMenuStyle, selectedMenuNameStyle } = Styles();
 
-  const handleClick = (account) => {
-    setSelectedAccount(account);
+  const handleClick = (menu) => {
+    setSelectedMenu(menu);
   };
 
   return (
@@ -28,20 +28,19 @@ function CreateAccount() {
             <header style={{ marginBottom: '10px' }}>
               <span style={{ color: 'black', fontWeight: 'bold', fontSize: '22px' }} >입출금 상품/가입 </span>
             </header>
-            {accounts.map((account, index) => (
+            {menus.map((menu, index) => (
               <p key={index}
-                style={{ cursor: 'pointer', fontSize: '18px', margin: 0, padding: '10px 0' }}
-                className={selectedAccount === account ? 'selectedAccount' : ''}
-                onClick={() => handleClick(account)}>
-                {account.name} {selectedAccount === account && '>'}
+                style={selectedMenu === menu ? selectedMenuStyle : menuStyle}
+                onClick={() => handleClick(menu)}>
+                {menu.name} {selectedMenu === menu && '>'}
               </p>
             ))}
           </div>
-          {selectedAccount &&
+          {selectedMenu &&
             <div style={{ flex: 7, border: '2px solid rgb(229, 229, 229)', padding: '20px', textAlign: 'left' }}>
-              <h2 style={{ marginTop: '0px' }}>{selectedAccount.name}</h2>
-              <div style={{ borderTop: '2px solid #F0F0F0', width: '100%', margin: '0' }}></div>
-              <p style={{ marginBottom: '100px' }}>{selectedAccount.description}</p>
+              <span style={selectedMenuNameStyle}>{selectedMenu.name}</span>
+              <div style={{ borderTop: '2px solid #F0F0F0', width: '100%', marginTop: '12px' }}></div>
+              <p style={{ marginBottom: '100px' }}>{selectedMenu.description}</p>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <label><input type="tel" placeholder='휴대폰 번호' style={inputStyle}></input><br /></label>
                 <label><input type="text" placeholder='인증 번호' style={inputStyle} ></input><br /></label>
