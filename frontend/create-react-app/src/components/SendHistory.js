@@ -10,8 +10,9 @@ function SendHistory({ account: accountProp }) {
     const labelStyle = {
         paddingTop: '17.5px',
         paddingBottom: '17.5px',
-        backgroundColor: '#e0e0e0',
-        paddingRight: '50px'
+        backgroundColor: '#f1f1f1',
+        paddingRight: '50px',
+        width: '130px'
     };
 
     const inputStyle = {
@@ -24,7 +25,7 @@ function SendHistory({ account: accountProp }) {
     const { buttonStyle } = Styles();
 
     useEffect(() => {
-        if(accountProp){
+        if (accountProp) {
             setAccount(accountProp.number);
         }
         if (month) {
@@ -37,7 +38,7 @@ function SendHistory({ account: accountProp }) {
 
             setPeriod({ start: startDate.toISOString().substring(0, 10), end: endDate.toISOString().substring(0, 10) });
         }
-    }, [month], );
+    }, [month],);
 
     return (
         <>

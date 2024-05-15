@@ -10,8 +10,9 @@ function Check({ account: accountProp }) {
     const labelStyle = {
         paddingTop: '17.5px',
         paddingBottom: '17.5px',
-        backgroundColor: '#e0e0e0',
-        paddingRight: '50px'
+        backgroundColor: '#f1f1f1',
+        paddingRight: '50px',
+        width: '130px'
     };
 
     const inputStyle = {
