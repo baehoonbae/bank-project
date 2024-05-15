@@ -7,12 +7,17 @@ function Check({ account: accountProp }) {
     const [account, setAccount] = useState(""); // 계좌번호
     const [month, setMonth] = useState(""); // 월별조회
     const [period, setPeriod] = useState({ start: "", end: "" }); // 조회기간
+    const fields = [
+        { label: '계좌번호', type: 'select', value: account, onChange: setAccount },
+        { label: '월별조회', type: 'select', value: month, onChange: setMonth },
+        { label: '조회기간', type: 'date', value: period.start, readOnly: true },
+    ];
     const labelStyle = {
         paddingTop: '17.5px',
         paddingBottom: '17.5px',
         backgroundColor: '#f1f1f1',
         paddingRight: '50px',
-        width: '130px'
+        width: '130px',
     };
 
     const inputStyle = {
@@ -25,7 +30,7 @@ function Check({ account: accountProp }) {
     const { buttonStyle } = Styles();
 
     useEffect(() => {
-        if(accountProp){
+        if (accountProp) {
             setAccount(accountProp.number);
         }
         if (month) {
@@ -38,26 +43,22 @@ function Check({ account: accountProp }) {
 
             setPeriod({ start: startDate.toISOString().substring(0, 10), end: endDate.toISOString().substring(0, 10) });
         }
-    }, [month], );
+    }, [month],);
 
     return (
         <>
-            <form style={{ paddingTop: 5, borderTop: '1px solid #e0e0e0', borderBottom: '1px solid #e0e0e0' }}>
-                <label style={labelStyle}>계좌번호</label>
-                <select style={inputStyle} value={account} onChange={(e) => setAccount(e.target.value)}>
-                    {/* 계좌번호 선택 */}
-                </select>
-                <br />
-                <label style={labelStyle}>월별조회</label>
-                <select style={inputStyle} value={month} onChange={(e) => setMonth(e.target.value)}>
-                    {/* 월별조회 선택 */}
-                </select>
-                <br />
-                <label style={labelStyle}>조회기간</label>
-                <input style={inputStyle} type="date" value={period.start} readOnly /> {/* 조회기간 시작 */}
-                ~
-                <input type="date" value={period.end} readOnly /> {/* 조회기간 끝 */}
-                <br />
+            <form style={{ borderTop: '1px solid #e0e0e0', borderBottom: '1px solid #e0e0e0' }}>
+                {fields.map((field, index) => (
+                    <div key={index} style={{ display: 'flex', justifyContent: 'flex-start', borderBottom: '1px solid #e0e0e0' }}>
+                        <label style={labelStyle}>{field.label}</label>
+                        {field.type === 'select' ? (
+                            <select style={inputStyle} value={field.value || ''} onChange={(e) => field.onChange(e.target.value)}></select>
+                        ) : (
+                            <input style={inputStyle} type={field.type} value={field.value || ''} readOnly={field.readOnly || false} />
+                        )}
+                        <br />
+                    </div>
+                ))}
             </form>
             <div style={{ marginTop: '20px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
                 <button style={buttonStyle} type="submit">조회</button>
