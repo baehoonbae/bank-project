@@ -11,19 +11,19 @@ function Home() {
             title: "조회",
             description: "내 계좌 목록과 잔고 및 이체 내역을 조회합니다.",
             backgroundColor: "teal",
-            onClick: () => navigate('/mypage'),
+            onClick: () => navigate('/user/mypage'),
         },
         {
             title: "이체",
             description: "다른 계좌로 송금합니다.",
             backgroundColor: "rgb(64, 128, 128)",
-            onClick: () => navigate('/send'),
+            onClick: () => navigate('/account/send'),
         },
         {
             title: "금융상품",
             description: "신규 입출금 상품에 가입합니다.",
             backgroundColor: "gray",
-            onClick: () => navigate('/create'),
+            onClick: () => navigate('/account/create'),
         },
     ];
 
@@ -42,7 +42,7 @@ function Home() {
                     />
                 ))}
             </div>
-                <Footer/>
+            <Footer />
         </>
     );
 }
