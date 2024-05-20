@@ -99,12 +99,18 @@
 }
 
 .signUpForm {
+  min-height: 700px;
   width: 500px;
-  height: 700px;
   margin-top: 50px;
   border: 1.3px solid #e0e0e0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 20px 0;
+}
+
+input[type="date"]:not(.has-value):before{
+  color: lightgray;
+  content: attr(placeholder);
 }
