@@ -34,7 +34,14 @@ public class UserController {
     }
 
     // 로그인
-    // 로그아웃
-
+    @PostMapping("/user/login")
+    public ResponseEntity<String> login(@RequestBody User user) {
+        String token = userService.login(user.getUsername(), user.getPassword());
+        if (token != null) {
+            return ResponseEntity.ok(token);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 잘못되었습니다.");
+        }
+    }
 
 }
