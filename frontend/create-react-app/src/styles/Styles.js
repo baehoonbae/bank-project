@@ -14,7 +14,6 @@ export function Styles() {
         cursor: 'pointer',
     };
 
-
     const menuStyle = {
         cursor: 'pointer',
         fontSize: '18px',
