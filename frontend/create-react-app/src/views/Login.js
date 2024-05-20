@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -15,10 +17,37 @@ function Login() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // 여기에 로그인 로직을 구현합니다.
-    console.log(`Username: ${username}, Password: ${password}`);
+
+    const response = await fetch('http://localhost:8080/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (response.ok) {
+      const data = await response.text();
+      if (data.split('.').length === 3) {
+        localStorage.setItem('token', data);
+        console.log('로그인 성공');
+        navigate('/');
+      } else {
+        try {
+          const jsonData = JSON.parse(data);
+          localStorage.setItem('token', jsonData.token);
+          console.log('로그인 성공');
+          navigate('/');
+        } catch (error) {
+          console.log('서버에서 반환된 데이터를 파싱하는 데 실패했습니다.');
+        }
+      }
+    } else {
+      const errorData = await response.json();
+      console.log('로그인 실패: ', errorData.message);
+    }
   };
 
   return (
@@ -36,7 +65,7 @@ function Login() {
             </label>
             <input className="loginButton" type="submit" value="로그인" />
           </form>
-          <Link className="link" to={"/signup"} style={{marginTop:'30px'}}>회원가입 &gt;</Link>
+          <Link className="link" to={"/user/signup"} style={{ marginTop: '30px' }}>회원가입 &gt;</Link>
         </div>
       </div >
       <Footer />
