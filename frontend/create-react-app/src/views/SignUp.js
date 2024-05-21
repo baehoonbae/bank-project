@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import { Styles } from '../styles/Styles.js';
-import UserFormValidation from '../hooks/UserFormValidation.js';
+import useFormValidation from '../hooks/useFormValidation.js';
 
 function SignUp() {
     const { inputStyle, buttonStyle } = Styles();
     const navigate = useNavigate();
-    const { formState, handleChange, handleBlur, isEmpty, touched } = UserFormValidation();
+    const { formState, handleChange, handleBlur, isEmpty, touched } = useFormValidation();
     const [isDuplicate, setIsDuplicate] = useState({
         username: false,
         email: false,
