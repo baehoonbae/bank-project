@@ -1,11 +1,14 @@
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthProvider';
 
 function Header() {
+    const { isLoggedIn, setIsLoggedIn } = useAuth();
     const navigate = useNavigate();
 
     const handleLogOut = () => {
-        localStorage.removeItem('token');
+        setIsLoggedIn(false);  // 로그아웃 함수를 실행합니다.
         navigate('/');
     }
 
@@ -16,9 +19,9 @@ function Header() {
                     <Link className="link" to={"/"} style={{ textDecoration: 'none' }}>HBbank</Link>
                 </nav>
                 <nav>
-                    <Link className="link" to={"/user/signup"} style={{ display: localStorage.getItem('token') ? 'none' : '' }}>회원가입</Link>
+                    <Link className="link" to={"/user/signup"} style={{ display: isLoggedIn ? 'none' : '' }}>회원가입</Link>
                     <span style={{ borderLeft: '1px solid #e0e0e0', margin: '0 10px', display: localStorage.getItem('token') ? 'none' : '' }}></span>
-                    {localStorage.getItem('token') ? (
+                    {isLoggedIn ? (
                         <Link className="link" to={"/"} onClick={handleLogOut}>로그아웃</Link>
                     ) : (
                         <Link className="link" to={"/user/login"}>로그인</Link>
