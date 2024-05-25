@@ -14,8 +14,7 @@ function SignUp() {
         email: false,
     });
     const fields = [
-        {
-            name: 'username', type: 'text', placeholder: '아이디', errorMessage: '* 아이디: 필수 정보입니다.', duplicateError: '* 아이디: 이미 사용중인 아이디입니다.',
+        { name: 'username', type: 'text', placeholder: '아이디', errorMessage: '* 아이디: 필수 정보입니다.', duplicateError: '* 아이디: 이미 사용중인 아이디입니다.',
             onBlur: () => {
                 handleBlur({ target: { name: 'username', value: formState.username } });
                 fetch(`http://localhost:8080/user/check/username?username=${formState.username}`, {
@@ -41,8 +40,7 @@ function SignUp() {
         },
         { name: 'password', type: 'password', placeholder: '비밀번호', onBlur: () => handleBlur({ target: { name: 'password', value: formState.password } }), errorMessage: '* 비밀번호: 필수 정보입니다.' },
         { name: 'name', type: 'text', placeholder: '이름', onBlur: () => handleBlur({ target: { name: 'name', value: formState.name } }), errorMessage: '* 이름: 필수 정보입니다.' },
-        {
-            name: 'email', type: 'email', placeholder: '이메일', errorMessage: '* 이메일: 필수 정보입니다.', duplicateError: '* 이메일: 이미 사용중인 이메일입니다.',
+        { name: 'email', type: 'email', placeholder: '이메일', errorMessage: '* 이메일: 필수 정보입니다.', duplicateError: '* 이메일: 이미 사용중인 이메일입니다.',
             onBlur: () => {
                 handleBlur({ target: { name: 'email', value: formState.email } });
                 fetch(`http://localhost:8080/user/check/email?email=${formState.email}`, {
