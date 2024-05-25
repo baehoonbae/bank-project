@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { useAuth } from '../components/AuthProvider.js';
 
 function Login() {
   const navigate = useNavigate();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,34 +22,26 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch('http://localhost:8080/user/login', {
+    fetch('http://localhost:8080/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password }),
-    });
-
-    if (response.ok) {
-      const data = await response.text();
-      if (data.split('.').length === 3) {
-        localStorage.setItem('token', data);
-        console.log('로그인 성공');
-        navigate('/');
-      } else {
-        try {
-          const jsonData = JSON.parse(data);
-          localStorage.setItem('token', jsonData.token);
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+      .then(response => {
+        if (response.status === 200) {
+          setIsLoggedIn(true);
           console.log('로그인 성공');
           navigate('/');
-        } catch (error) {
-          console.log('서버에서 반환된 데이터를 파싱하는 데 실패했습니다.');
+        } else {
+          throw new Error('로그인 실패')
         }
-      }
-    } else {
-      const errorData = await response.json();
-      console.log('로그인 실패: ', errorData.message);
-    }
+        return response.json()
+      })
   };
 
   return (
