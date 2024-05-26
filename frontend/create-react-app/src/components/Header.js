@@ -2,13 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthProvider';
+import axios from 'axios';
 
 function Header() {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
     const navigate = useNavigate();
 
-    const handleLogOut = () => {
+    const handleLogOut = async () => {
         setIsLoggedIn(false);  // 로그아웃 함수를 실행합니다.
+        if (isLoggedIn) {
+            try {
+                const response = await axios.get('http://localhost:8080/user/logout', { withCredentials: true });
+                if (response.status === 200) {
+                    console.log('로그아웃 성공');
+                } else {
+                    throw new Error('로그아웃 실패');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
         navigate('/');
     }
 
