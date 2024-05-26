@@ -31,6 +31,7 @@ function Login() {
         username: username,
         password: password,
       }),
+      credentials: 'include', // 쿠키를 포함한 요청을 보냅니다.
     })
       .then(response => {
         if (response.status === 200) {
@@ -40,8 +41,10 @@ function Login() {
         } else {
           throw new Error('로그인 실패')
         }
-        return response.json()
       })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   return (
