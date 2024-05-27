@@ -64,8 +64,7 @@ public class UserController {
 
     // 로그아웃
     @GetMapping("/user/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request,
-                                         HttpServletResponse response) {
+    public ResponseEntity<String> logout(HttpServletResponse response) {
         // 액세스 토큰과 리프레시 토큰을 저장한 쿠키를 제거합니다.
         Cookie accessTokenCookie = new Cookie("accessToken", null);
         accessTokenCookie.setMaxAge(0);
