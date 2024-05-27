@@ -45,5 +45,5 @@ export default function useCreateValidation() {
         }));
     };
 
-    return { formState, handleChange, handleBlur, isEmpty, touched,};
+    return { formState, handleChange, handleBlur, isEmpty, touched, };
 }
