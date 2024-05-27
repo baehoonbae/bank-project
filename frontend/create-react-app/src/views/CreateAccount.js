@@ -1,38 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import Styles from '../styles/Styles.js';
 import useCreateValidation from '../hooks/useCreateValidation.js';
+import axios from 'axios';
 
 function CreateAccount() {
-  const [selectedMenu, setSelectedMenu] = useState({
-  });
-
-  useEffect(() => {
-    const storedMenu = localStorage.getItem('selectedMenu');
-    if (storedMenu) {
-      setSelectedMenu(JSON.parse(storedMenu));
-    }
-    localStorage.removeItem('selectedMenu');
-  }, []);
-
-  useEffect(() => {
-    console.log(selectedMenu);
-  }, [selectedMenu]);
-
-  const { inputStyle, buttonStyle, menuStyle, selectedMenuStyle, selectedMenuNameStyle } = Styles();
-  const { formState, handleChange, handleBlur, isEmpty, touched, } = useCreateValidation();
-  const navigate = useNavigate();
   const [isMatch, setIsMatch] = useState({
     confirmPassword: false,
   });
+  const { inputStyle, buttonStyle, menuStyle, selectedMenuStyle, selectedMenuNameStyle } = Styles();
+  const { formState, handleChange, handleBlur, isEmpty, touched } = useCreateValidation();
+  const navigate = useNavigate();
   const [menus, setMenus] = useState([
     { name: "HB 올인원통장", description: "HB 올인원통장 설명" },
     { name: "HB 플러스통장", description: "HB 플러스통장 설명" },
     { name: "HB 일상생활비우대통장", description: "HB 일상생활비우대통장 설명" },
     { name: "마이저금통", description: "마이저금통 설명" },
   ]);
+  const [selectedMenu, setSelectedMenu] = useState(menus[0]);
   const fields = [
     { name: 'phoneNumber', type: 'tel', placeholder: '휴대폰 번호', onBlur: () => handleBlur({ target: { name: 'phoneNumber', value: formState.phoneNumber } }), errorMessage: '* 휴대폰 번호: 필수 정보입니다.', },
     { name: 'verificationCode', type: 'text', placeholder: '인증 번호', onBlur: () => handleBlur({ target: { name: 'verificationCode', value: formState.verificationCode } }), errorMessage: '* 인증 번호: 필수 정보입니다.' },
@@ -41,59 +28,41 @@ function CreateAccount() {
       name: 'confirmPassword', type: 'password', placeholder: '비밀번호 확인', errorMessage: '* 비밀번호 확인: 필수 정보입니다.', confirmError: '* 비밀번호 확인: 비밀번호가 일치하지 않습니다.',
       onBlur: () => {
         const isPasswordMatch = formState.password === formState.confirmPassword;
-        const isEmpty = !formState.confirmPassword;
-        if (isPasswordMatch && !isEmpty) {
-          setIsMatch(prevState => ({
-            ...prevState,
-            confirmPassword: true,
-          }));
-        } else {
-          setIsMatch(prevState => ({
-            ...prevState,
-            confirmPassword: false,
-          }));
-        }
-        handleBlur({
-          target: {
-            name: 'confirmPassword',
-            value: formState.confirmPassword,
-          },
-        });
+        setIsMatch({ confirmPassword: isPasswordMatch });
+        handleBlur({ target: { name: 'confirmPassword', value: formState.confirmPassword } });
       },
-    }
-
+    },
   ]
   const handleClick = (menu) => {
     setSelectedMenu(menu);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event, selectedMenu) => {
     event.preventDefault();
-    const accountType = selectedMenu.name;
-    const accountPassword = formState['password'];
-    const confirmPassword = formState['confirmPassword'];
-    if (accountPassword !== confirmPassword) {
-      alert('비밀번호가 일치하지 않습니다.');
+
+    // 필수 입력 및 비밀번호 일치 여부를 확인합니다.
+    if (Object.values(isEmpty).some(value => value === true) || Object.values(isMatch).some(value => value === false)) {
       return;
     }
-    fetch('http://localhost:8080/account/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+
+    // 서버로 계좌 개설 요청을 보냅니다.
+    axios.post('http://localhost:8080/account/create', {}, {
+      params: {
+        accountType: selectedMenu.name,
+        accountPassword: formState.password,
       },
-      body: JSON.stringify({ accountType, accountPassword }),
+      withCredentials: true,
     })
       .then(response => {
         if (response.status === 200) {
+          alert('계좌가 개설되었습니다.');
           navigate('/');
+        } else if (response.status === 401) {
+          alert('로그인이 필요합니다.');
+          navigate('/user/login');
         } else {
-          throw new Error('계좌개설에 실패했습니다.')
+          throw new Error('예기치 못한 오류 발생: 계좌개설에 실패했습니다.')
         }
-        return response.json()
-      })
-      .then(data => {
-        console.log('Success:', data);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -135,7 +104,24 @@ function CreateAccount() {
                       onChange={handleChange}
                       onBlur={field.onBlur}
                     />
-                    <div style={{ display: isEmpty[field.name] && touched[field.name] ? 'block' : 'none', color: 'red', marginBottom: '-25px' }}>{field.errorMessage}</div><br />
+                    {field.name === 'confirmPassword' ? (
+                      <div style={{ color: 'red', marginBottom: '-25px', fontSize: '14px', }}>
+                        {!formState.confirmPassword && touched[field.name] ? (
+                          <div style={{ display: 'block' }}>{field.errorMessage}</div>
+                        ) : (
+                          <div style={{ display: !isMatch.confirmPassword && touched[field.name] ? 'block' : 'none' }}>{field.confirmError}</div>
+                        )}
+                      </div>) : (
+                      <div style={{
+                        display: isEmpty[field.name] && touched[field.name] ? 'block' : 'none',
+                        fontSize: '14px',
+                        color: 'red',
+                        marginBottom: '-25px'
+                      }}>
+                        {field.errorMessage}
+                      </div>
+                    )}
+                    <br />
                   </label>
                 ))}
                 <input type="submit" value="계좌 개설" style={buttonStyle} />
