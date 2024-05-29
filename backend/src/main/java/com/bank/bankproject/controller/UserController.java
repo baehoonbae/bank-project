@@ -1,45 +1,49 @@
 package com.bank.bankproject.controller;
 
 import com.bank.bankproject.domain.User;
+import com.bank.bankproject.service.EmailService;
 import com.bank.bankproject.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.CustomLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
     // 회원 가입
-    @PostMapping("/user/signup")
+    @PostMapping("/signup")
     public ResponseEntity<String> join(@RequestBody User user) {
         userService.signUp(user);
         return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
     }
 
     // 아이디 중복 확인
-    @GetMapping("/user/check/username")
+    @GetMapping("/check/username")
     public ResponseEntity<Boolean> checkUsername(@RequestParam String username) {
         boolean check = userService.checkUsername(username);
         return check ? new ResponseEntity<>(check, HttpStatus.CONFLICT) : ResponseEntity.ok(check);
     }
 
     // 이메일 중복 확인
-    @GetMapping("/user/check/email")
+    @GetMapping("/check/email")
     public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
         boolean check = userService.checkEmail(email);
         return check ? new ResponseEntity<>(check, HttpStatus.CONFLICT) : ResponseEntity.ok(check);
     }
 
     // 로그인
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user, HttpServletResponse response, HttpServletRequest request) {
         // 토큰을 발급 받습니다.
         Map<String, String> tokens = userService.login(user.getUsername(), user.getPassword(), request);
@@ -63,7 +67,7 @@ public class UserController {
     }
 
     // 로그아웃
-    @GetMapping("/user/logout")
+    @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response) {
         // 액세스 토큰과 리프레시 토큰을 저장한 쿠키를 제거합니다.
         Cookie accessTokenCookie = new Cookie("accessToken", null);
@@ -82,7 +86,7 @@ public class UserController {
     }
 
     // 로그인 상태 확인
-    @GetMapping("/user/check/login")
+    @GetMapping("/check/login")
     public ResponseEntity<String> checkLoginStatus(HttpServletRequest request,
                                                    HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
@@ -110,5 +114,20 @@ public class UserController {
             // 두 토큰이 모두 유효하거나 액세스 토큰만 유효하다면, 200 상태 코드를 반환합니다.
             return ResponseEntity.ok("액세스 토큰이 유효합니다.");
         }
+    }
+
+    // 인증번호 전송
+    @PostMapping("/email/verification-request")
+    public ResponseEntity<String> sendAuthNumber(@RequestParam("email") String email) {
+        userService.sendAuthNumber(email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 인증번호 검증
+    @GetMapping("/email/verification")
+    public ResponseEntity verificationEmail(@RequestParam("email") String email,
+                                            @RequestParam("authNumber") String authNumber) {
+        boolean result = userService.verificationEmail(email, authNumber);
+        return result ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }
