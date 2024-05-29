@@ -10,7 +10,7 @@ function CreateAccount() {
   const [isMatch, setIsMatch] = useState({
     confirmPassword: false,
   });
-  const { inputStyle, buttonStyle, menuStyle, selectedMenuStyle, selectedMenuNameStyle } = Styles();
+  const { inputStyle, buttonStyle, menuStyle, selectedMenuStyle, selectedMenuNameStyle, sendStyle } = Styles();
   const { formState, handleChange, handleBlur, isEmpty, touched } = useCreateValidation();
   const navigate = useNavigate();
   const [menus, setMenus] = useState([
@@ -21,7 +21,7 @@ function CreateAccount() {
   ]);
   const [selectedMenu, setSelectedMenu] = useState(menus[0]);
   const fields = [
-    { name: 'phoneNumber', type: 'tel', placeholder: '휴대폰 번호', onBlur: () => handleBlur({ target: { name: 'phoneNumber', value: formState.phoneNumber } }), errorMessage: '* 휴대폰 번호: 필수 정보입니다.', },
+    { name: 'email', type: 'text', placeholder: '이메일', onBlur: () => handleBlur({ target: { name: 'email', value: formState.email } }), errorMessage: '* 이메일: 필수 정보입니다.', },
     { name: 'verificationCode', type: 'text', placeholder: '인증 번호', onBlur: () => handleBlur({ target: { name: 'verificationCode', value: formState.verificationCode } }), errorMessage: '* 인증 번호: 필수 정보입니다.' },
     { name: 'password', type: 'password', placeholder: '비밀번호', onBlur: () => handleBlur({ target: { name: 'password', value: formState.password } }), errorMessage: '* 비밀번호: 필수 정보입니다.', },
     {
@@ -69,6 +69,21 @@ function CreateAccount() {
       });
   }
 
+  const handleSend = async (event) => {
+    event.preventDefault();
+    const email = formState.email;
+    try {
+      const response = await axios.post('http://localhost:8080/user/send-auth-number', { email });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  const handleVerify = (event) => {
+
+  }
+
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'center' }}><Header /></div>
@@ -95,15 +110,30 @@ function CreateAccount() {
               <form onSubmit={(event) => handleSubmit(event, selectedMenu)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 {fields.map((field) => (
                   <label key={field.name}>
-                    <input
-                      type={field.type}
-                      name={field.name}
-                      value={formState[field.name]}
-                      placeholder={field.placeholder}
-                      style={inputStyle}
-                      onChange={handleChange}
-                      onBlur={field.onBlur}
-                    />
+                    {field.name === 'email' || field.name === 'verificationCode' ?
+                      <>
+                        <input
+                          type={field.type}
+                          name={field.name}
+                          value={formState[field.name]}
+                          placeholder={field.placeholder}
+                          style={{ ...inputStyle, width: '230px' }}
+                          onChange={handleChange}
+                          onBlur={field.onBlur}
+                        />
+                        {field.name === 'email' && <button type='button' style={sendStyle} onClick={handleSend}>전송</button>}
+                        {field.name === 'verificationCode' && <button type='button' style={sendStyle} onClick={handleVerify}>확인</button>}
+                      </> :
+                      <input
+                        type={field.type}
+                        name={field.name}
+                        value={formState[field.name]}
+                        placeholder={field.placeholder}
+                        style={{ ...inputStyle, width: '300px' }}
+                        onChange={handleChange}
+                        onBlur={field.onBlur}
+                      />
+                    }
                     {field.name === 'confirmPassword' ? (
                       <div style={{ color: 'red', marginBottom: '-25px', fontSize: '14px', }}>
                         {!formState.confirmPassword && touched[field.name] ? (
