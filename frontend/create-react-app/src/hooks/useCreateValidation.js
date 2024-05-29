@@ -3,21 +3,21 @@ import { useState } from 'react';
 
 export default function useCreateValidation() {
     const [formState, setFormState] = useState({
-        phoneNumber: '',
+        email: '',
         verificationCode: '',
         password: '',
         confirmPassword: '',
     });
 
     const [isEmpty, setIsEmpty] = useState({
-        phoneNumber: true,
+        email: true,
         verificationCode: true,
         password: true,
         confirmPassword: true,
     });
 
     const [touched, setTouched] = useState({
-        phoneNumber: false,
+        email: false,
         verificationCode: false,
         password: false,
         confirmPassword: false,
