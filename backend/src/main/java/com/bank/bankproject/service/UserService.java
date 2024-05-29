@@ -10,6 +10,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +22,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.*;
 
 @Service
@@ -27,11 +30,19 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final String secretKey = generateSecretKey();
+    private final EmailService emailService;
+    private final RedisService redisService;
+    private static final String AUTH_CODE_PREFIX = "AuthCode ";
+
+    @Value("${spring.mail.auth-code-expiration-millis}")
+    private long authCodeExpirationMillis;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService, RedisService redisService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
+        this.redisService = redisService;
     }
 
     // 회원가입
@@ -237,4 +248,29 @@ public class UserService {
         long userId = getUserIdFromToken(refreshToken);
         return new long[]{isAccessTokenExpired, isRefreshTokenExpired, userId};
     }
+
+    // 인증번호 생성
+    public String generateAuthNumber() {
+        Random random = new Random();
+        int authNumber = 100000 + random.nextInt(900000);  // 6자리 랜덤 숫자 생성
+        return String.valueOf(authNumber);
+    }
+
+    // 인증번호 전송
+    public void sendAuthNumber(String email) {
+        String authNumber = generateAuthNumber();
+        String title = "BankProject 인증번호입니다.";
+        emailService.sendEmail(email, title, authNumber);
+
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
+        redisService.setValues(AUTH_CODE_PREFIX + email,
+                authNumber, Duration.ofMillis(this.authCodeExpirationMillis));
+    }
+
+    // 인증번호 검증
+    public boolean verificationEmail(String email, String authNumber) {
+
+        return false;
+    }
+
 }
