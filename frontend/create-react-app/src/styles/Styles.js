@@ -1,18 +1,28 @@
 export function Styles() {
     const inputStyle = {
-        width: '300px',
+        borderRadius: '7px',
         height: '40px',
         marginTop: '10px'
     };
 
     const buttonStyle = {
         ...inputStyle,
+        width: '250px',
         backgroundColor: 'teal',
         color: 'white',
         border: 'none',
-        padding: '10px 20px',
+        margin: '10px 20px',
         cursor: 'pointer',
     };
+
+    const sendStyle = {
+        marginTop: `10px`,
+        marginLeft: `10px`,
+        width: `60px`,
+        height: `45px`,
+        borderRadius: `7px`,
+        cursor: `pointer`,
+    }
 
     const menuStyle = {
         cursor: 'pointer',
@@ -25,7 +35,7 @@ export function Styles() {
 
     const selectedMenuStyle = {
         ...menuStyle,
-        backgroundColor: '#b3b3b3', 
+        backgroundColor: '#b3b3b3',
     };
 
     const selectedMenuNameStyle = {
@@ -34,7 +44,7 @@ export function Styles() {
         fontSize: '25px',
     }
 
-    return ({ inputStyle, buttonStyle, menuStyle, selectedMenuStyle, selectedMenuNameStyle });
+    return ({ inputStyle, buttonStyle, menuStyle, selectedMenuStyle, selectedMenuNameStyle, sendStyle });
 }
 
 export default Styles;
