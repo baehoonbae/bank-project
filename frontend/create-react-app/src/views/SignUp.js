@@ -4,9 +4,10 @@ import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import { Styles } from '../styles/Styles.js';
 import useFormValidation from '../hooks/useFormValidation.js';
+import axios from 'axios';
 
 function SignUp() {
-    const { inputStyle, buttonStyle } = Styles();
+    const { inputStyle, buttonStyle, sendStyle } = Styles();
     const navigate = useNavigate();
     const { formState, handleChange, handleBlur, isEmpty, touched } = useFormValidation();
     const [isDuplicate, setIsDuplicate] = useState({
@@ -14,7 +15,8 @@ function SignUp() {
         email: false,
     });
     const fields = [
-        { name: 'username', type: 'text', placeholder: '아이디', errorMessage: '* 아이디: 필수 정보입니다.', duplicateError: '* 아이디: 이미 사용중인 아이디입니다.',
+        {
+            name: 'username', type: 'text', placeholder: '아이디', errorMessage: '* 아이디: 필수 정보입니다.', duplicateError: '* 아이디: 이미 사용중인 아이디입니다.',
             onBlur: () => {
                 handleBlur({ target: { name: 'username', value: formState.username } });
                 fetch(`http://localhost:8080/user/check/username?username=${formState.username}`, {
@@ -40,7 +42,10 @@ function SignUp() {
         },
         { name: 'password', type: 'password', placeholder: '비밀번호', onBlur: () => handleBlur({ target: { name: 'password', value: formState.password } }), errorMessage: '* 비밀번호: 필수 정보입니다.' },
         { name: 'name', type: 'text', placeholder: '이름', onBlur: () => handleBlur({ target: { name: 'name', value: formState.name } }), errorMessage: '* 이름: 필수 정보입니다.' },
-        { name: 'email', type: 'email', placeholder: '이메일', errorMessage: '* 이메일: 필수 정보입니다.', duplicateError: '* 이메일: 이미 사용중인 이메일입니다.',
+        { name: 'birthDate', type: 'date', placeholder: '생년월일', onBlur: () => handleBlur({ target: { name: 'birthDate', value: formState.birthDate } }), errorMessage: '* 생년월일: 필수 정보입니다.' },
+        { name: 'phoneNumber', type: 'number', placeholder: '전화번호', onBlur: () => handleBlur({ target: { name: 'phoneNumber', value: formState.phoneNumber } }), errorMessage: '* 전화번호: 필수 정보입니다.' },
+        {
+            name: 'email', type: 'email', placeholder: '이메일', errorMessage: '* 이메일: 필수 정보입니다.', duplicateError: '* 이메일: 이미 사용중인 이메일입니다.',
             onBlur: () => {
                 handleBlur({ target: { name: 'email', value: formState.email } });
                 fetch(`http://localhost:8080/user/check/email?email=${formState.email}`, {
@@ -64,9 +69,7 @@ function SignUp() {
                     });
             },
         },
-        { name: 'birthDate', type: 'date', placeholder: '생년월일', onBlur: () => handleBlur({ target: { name: 'birthDate', value: formState.birthDate } }), errorMessage: '* 생년월일: 필수 정보입니다.' },
-        { name: 'phoneNumber', type: 'tel', placeholder: '전화번호', onBlur: () => handleBlur({ target: { name: 'phoneNumber', value: formState.phoneNumber } }), errorMessage: '* 전화번호: 필수 정보입니다.' },
-        { name: 'verificationCode', type: 'text', placeholder: '인증번호', onBlur: () => handleBlur({ target: { name: 'verificationCode', value: formState.verificationCode } }), errorMessage: '* 인증번호: 필수 정보입니다.' },
+        { name: 'verificationCode', type: 'number', placeholder: '인증번호', onBlur: () => handleBlur({ target: { name: 'verificationCode', value: formState.verificationCode } }), errorMessage: '* 인증번호: 필수 정보입니다.' },
     ];
 
     const handleSubmit = (event) => {
@@ -102,6 +105,47 @@ function SignUp() {
             });
     };
 
+    const handleSend = async (event) => {
+        event.preventDefault();
+        try {
+            await axios.post('http://localhost:8080/user/email/verification-request', {}, {
+                params: {
+                    email: formState.email,
+                },
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log('이메일 전송 성공');
+                    } else {
+                        throw new Error('이메일 전송 실패');
+                    }
+                })
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const handleVerify = async (event) => {
+        event.preventDefault();
+        try {
+            await axios.post('http://localhost:8080/user/email/verification', {}, {
+                params: {
+                    email: formState.email,
+                    authNumber: formState.verificationCode,
+                },
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log('이메일 전송 성공');
+                    } else {
+                        throw new Error('이메일 전송 실패');
+                    }
+                })
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     return (
         <>
             <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
@@ -112,16 +156,31 @@ function SignUp() {
                     <h2>회원가입</h2>
                     <form onSubmit={handleSubmit}>
                         {fields.map((field) => (
-                            <label key={field.name}>
-                                <input
-                                    type={field.type}
-                                    name={field.name}
-                                    value={formState[field.name]}
-                                    placeholder={field.placeholder}
-                                    style={inputStyle}
-                                    onChange={handleChange}
-                                    onBlur={field.onBlur}
-                                />
+                            <label key={field.name} style={{ display: 'flex', flexDirection: 'column' }}>
+                                {field.name === 'email' || field.name === 'verificationCode' ?
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <input
+                                            type={field.type}
+                                            name={field.name}
+                                            value={formState[field.name]}
+                                            placeholder={field.placeholder}
+                                            style={{ ...inputStyle, width: '230px' }}
+                                            onChange={handleChange}
+                                            onBlur={field.onBlur}
+                                        />
+                                        {field.name === 'email' && <button type='button' style={sendStyle} onClick={handleSend}>전송</button>}
+                                        {field.name === 'verificationCode' && <button type='button' style={sendStyle} onClick={handleVerify}>확인</button>}
+                                    </div> :
+                                    <input
+                                        type={field.type}
+                                        name={field.name}
+                                        value={formState[field.name]}
+                                        placeholder={field.placeholder}
+                                        style={{ ...inputStyle, width: '300px' }}
+                                        onChange={handleChange}
+                                        onBlur={field.onBlur}
+                                    />
+                                }
                                 <div style={{ display: isEmpty[field.name] && touched[field.name] ? 'block' : 'none', color: 'red', marginBottom: '-25px' }}>{field.errorMessage}</div>
                                 <div style={{ display: isDuplicate[field.name] && touched[field.name] ? 'block' : 'none', color: 'red', marginBottom: '-25px' }}>{field.duplicateError}</div>
                                 <br />
@@ -130,7 +189,7 @@ function SignUp() {
                         <input type="submit" value="회원가입" style={buttonStyle} />
                     </form>
                 </div>
-            </div>
+            </div >
             <Footer />
         </>
     );
