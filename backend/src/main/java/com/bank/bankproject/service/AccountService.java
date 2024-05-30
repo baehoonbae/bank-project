@@ -6,6 +6,7 @@ import com.bank.bankproject.repository.AccountRepository;
 import com.bank.bankproject.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,14 +31,27 @@ public class AccountService {
     }
 
     // 계좌 개설
-    public ResponseEntity<String> createAccount(String token, String accountType, String accountPassword) {
+    public ResponseEntity<String> createAccount(String token, String email, String accountType, String accountPassword, HttpSession session) {
         if (token != null) {
             // 토큰에서 userId 를 추출하고 검증합니다.
             Long userId = userService.getUserIdFromToken(token);
             if (userId == null) {
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
             }
+
+            if (session.getAttribute("isVerified") == null || !(Boolean) session.getAttribute("isVerified")) {
+                return ResponseEntity.status(402).body("이메일 인증이 필요합니다.");
+            }
+
+            String sessionEmail = (String) session.getAttribute("email");
+            if (sessionEmail == null || !sessionEmail.equals(email)) {
+                return ResponseEntity.status(402).body("이메일 인증이 필요합니다.");
+            }
+
             Optional<User> userOptional = userRepository.findById(userId);
+            if (userOptional.isEmpty() || !userOptional.get().getEmail().equals(email)) {
+                return ResponseEntity.status(403).body("본인 명의의 계좌만 개설 가능합니다.");
+            }
 
             // 계좌 개설 로직
             if (userOptional.isPresent()) {
@@ -54,7 +68,7 @@ public class AccountService {
                 accountRepository.save(newAccount);
                 return ResponseEntity.ok("계좌가 생성되었습니다.");
             } else {
-                return ResponseEntity.badRequest().body("오류 발생");
+                return ResponseEntity.status(401).body("계좌 생성에 실패했습니다.");
             }
         } else {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");

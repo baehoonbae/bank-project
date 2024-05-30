@@ -6,6 +6,7 @@ import com.bank.bankproject.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.CustomLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,15 @@ public class UserController {
 
     // 회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<String> join(@RequestBody User user) {
+    public ResponseEntity<String> join(@RequestBody User user, HttpSession session) {
+        // 이메일 인증이 완료되었는지 확인합니다.
+        Boolean isVerified = (Boolean) session.getAttribute("isVerified");
+
+        // 인증이 완료되지 않은 경우, 에러 메시지를 반환합니다.
+        if (isVerified == null || !isVerified) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 인증이 필요합니다.");
+        }
+
         userService.signUp(user);
         return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
     }
@@ -118,16 +127,16 @@ public class UserController {
 
     // 인증번호 전송
     @PostMapping("/email/verification-request")
-    public ResponseEntity<String> sendAuthNumber(@RequestParam("email") String email) {
-        userService.sendAuthNumber(email);
+    public ResponseEntity<String> sendAuthNumber(@RequestParam("email") String email, HttpSession session) {
+        userService.sendAuthNumber(email, session);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 인증번호 검증
-    @GetMapping("/email/verification")
-    public ResponseEntity verificationEmail(@RequestParam("email") String email,
-                                            @RequestParam("authNumber") String authNumber) {
-        boolean result = userService.verificationEmail(email, authNumber);
+    @PostMapping("/email/verification")
+    public ResponseEntity<String> verifyAuthNumber(@RequestParam("authNumber") String authNumber,
+                                                   HttpSession session) {
+        boolean result = userService.verifyAuthNumber(authNumber, session);
         return result ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

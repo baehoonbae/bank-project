@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -31,18 +32,12 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final String secretKey = generateSecretKey();
     private final EmailService emailService;
-    private final RedisService redisService;
-    private static final String AUTH_CODE_PREFIX = "AuthCode ";
-
-    @Value("${spring.mail.auth-code-expiration-millis}")
-    private long authCodeExpirationMillis;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService, RedisService redisService) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
-        this.redisService = redisService;
     }
 
     // 회원가입
@@ -257,18 +252,27 @@ public class UserService {
     }
 
     // 인증번호 전송
-    public void sendAuthNumber(String email) {
+    public void sendAuthNumber(String email, HttpSession session) {
         String authNumber = generateAuthNumber();
+
+        session.setAttribute("authNumber", authNumber);
+        session.setAttribute("isVerified", false);
+        session.setAttribute("email", email);
+
         String title = "BankProject 인증번호입니다.";
         emailService.sendEmail(email, title, authNumber);
-
-        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
-        redisService.setValues(AUTH_CODE_PREFIX + email,
-                authNumber, Duration.ofMillis(this.authCodeExpirationMillis));
     }
 
     // 인증번호 검증
-    public boolean verificationEmail(String email, String authNumber) {
+    public boolean verifyAuthNumber(String authNumber, HttpSession session) {
+        String sessionAuthNumber = (String) session.getAttribute("authNumber");
+
+        if (sessionAuthNumber != null && sessionAuthNumber.equals(authNumber)) {
+            // 인증 상태를 세션에 저장합니다.
+            session.removeAttribute("authNumber");
+            session.setAttribute("isVerified", true);
+            return true;
+        }
 
         return false;
     }
