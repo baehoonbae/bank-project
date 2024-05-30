@@ -48,6 +48,7 @@ function CreateAccount() {
     // 서버로 계좌 개설 요청을 보냅니다.
     axios.post('http://localhost:8080/account/create', {}, {
       params: {
+        email: formState.email,
         accountType: selectedMenu.name,
         accountPassword: formState.password,
       },
@@ -57,31 +58,76 @@ function CreateAccount() {
         if (response.status === 200) {
           alert('계좌가 개설되었습니다.');
           navigate('/');
-        } else if (response.status === 401) {
-          alert('로그인이 필요합니다.');
-          navigate('/user/login');
-        } else {
-          throw new Error('예기치 못한 오류 발생: 계좌개설에 실패했습니다.')
         }
       })
       .catch((error) => {
-        console.error('Error:', error);
+        if (error.response) {
+          switch (error.response.status) {
+            case 401:
+              alert(error.response.data);
+              break;
+            case 402:
+              alert(error.response.data);
+              break;
+            case 403:
+              alert(error.response.data);
+              break;
+            case 405:
+              alert(error.response.data);
+              break;
+            default:
+              alert('An error occurred: ' + error.response.data);
+          }
+        } else if (error.request) {
+          alert('No response was received from the server.');
+        } else {
+          alert('An error occurred while setting up the request.');
+        }
       });
   }
 
   const handleSend = async (event) => {
     event.preventDefault();
-    const email = formState.email;
     try {
-      const response = await axios.post('http://localhost:8080/user/send-auth-number', { email });
-      console.log(response.data);
+      await axios.post('http://localhost:8080/user/email/verification-request', {}, {
+        params: {
+          email: formState.email,
+        },
+        withCredentials: true,
+      })
+        .then(response => {
+          if (response.status === 200) {
+            console.log('이메일 전송 성공');
+          } else {
+            throw new Error('이메일 전송 실패');
+          }
+        })
     } catch (error) {
       console.error('Error:', error);
     }
   }
 
-  const handleVerify = (event) => {
-
+  const handleVerify = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post('http://localhost:8080/user/email/verification', {}, {
+        params: {
+          authNumber: formState.verificationCode,
+        },
+        withCredentials: true,
+      })
+        .then(response => {
+          if (response.status === 200) {
+            alert('인증 성공');
+          } else if (response.status === 401) {
+            alert('인증 실패');
+          } else {
+            throw new Error('인증 실패');
+          }
+        })
+    } catch (error) {
+      alert('인증 실패');
+    }
   }
 
   return (

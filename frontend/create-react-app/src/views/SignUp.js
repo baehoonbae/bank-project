@@ -88,10 +88,13 @@ function SignUp() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(user),
+            credentials: 'include',
         })
             .then(response => {
                 if (response.status === 200) {
                     navigate('/');
+                } else if (response.status === 401) {
+                    alert('이메일 인증이 필요합니다.');
                 } else {
                     throw new Error('회원가입에 실패했습니다.')
                 }
@@ -112,6 +115,7 @@ function SignUp() {
                 params: {
                     email: formState.email,
                 },
+                withCredentials: true,
             })
                 .then(response => {
                     if (response.status === 200) {
@@ -130,19 +134,21 @@ function SignUp() {
         try {
             await axios.post('http://localhost:8080/user/email/verification', {}, {
                 params: {
-                    email: formState.email,
                     authNumber: formState.verificationCode,
                 },
+                withCredentials: true,
             })
                 .then(response => {
                     if (response.status === 200) {
-                        console.log('이메일 전송 성공');
+                        alert('인증 성공');
+                    } else if (response.status === 401) {
+                        alert('인증 실패');
                     } else {
-                        throw new Error('이메일 전송 실패');
+                        throw new Error('인증 실패');
                     }
                 })
         } catch (error) {
-            console.error('Error:', error);
+            alert('인증 실패');
         }
     }
 
